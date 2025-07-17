@@ -1,7 +1,31 @@
 import { useState } from 'react'
 
+const Filter = ({ newFilter, handleFilterChange }) => {
+  return <div>filter shown with <input value={newFilter} onChange={handleFilterChange}/></div>
+}
+
+const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNumberChange }) => {
+  return <form onSubmit={addPerson}>
+            <div>
+              name: <input value={newName} onChange={handleNameChange}/>
+            </div>
+            <div>
+              number: <input value={newNumber} onChange={handleNumberChange}/>
+            </div>
+            <div>
+              <button type="submit">add</button>
+            </div>
+         </form>
+}
+
+const Persons = ({ personsToShow }) => {
+  return <div>{personsToShow.map((person) => (
+    <Person key={person.name} person={person}/>
+  ))}</div>
+}
+
 const Person = ({ person }) => {
-  return <li>{person.name} {person.number}</li>
+  return <div>{person.name} {person.number}</div>
 }
 
 const App = () => {
@@ -50,25 +74,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <div>
-          filter shown with <input value={newFilter} onChange={handleFilterChange}/>
-        </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personsToShow.map((person) => (
-        <Person key={person.name} person={person}/>
-      ))}
+      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange}/>
+      <h3>add a new</h3>
+      <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange}
+                                        newNumber={newNumber} handleNumberChange={handleNumberChange}/>
+      <h3>Numbers</h3>
+      <Persons personsToShow={personsToShow}/>
     </div>
   )
 }
