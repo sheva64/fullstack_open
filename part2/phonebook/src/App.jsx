@@ -48,7 +48,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [addingMessage, setAddingMessage] = useState('You will see added persons here...')
+  const [addingMessage, setAddingMessage] = useState({ message: 'You will see changes here...', type: "success" })
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -64,12 +64,23 @@ const App = () => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
-          setAddingMessage(
-            `Changed number of ${existingPerson.name}`
-          )
+          setAddingMessage({
+            message: `Changed number of ${existingPerson.name}`,
+            type: "success"
+        })
           setTimeout(() => {
-            setAddingMessage(null)
+            setAddingMessage({ message: null, type: null })
           }, 5000)
+        })
+        .catch(error => {
+          setAddingMessage({
+            message: `Information of ${existingPerson.name} was already removed from server`,
+            type: "failure"
+        })
+          setTimeout(() => {
+            setAddingMessage({ message: null, type: null })
+          }, 5000)
+          setPersons(persons.filter(p => p.name !== existingPerson.name))
         })
       }
       return
@@ -86,11 +97,12 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        setAddingMessage(
-          `Added ${personObject.name}`
-        )
+        setAddingMessage({
+          message: `Added ${personObject.name}`,
+          type: "success"
+        })
         setTimeout(() => {
-          setAddingMessage(null)
+          setAddingMessage({ message: null, type: null })
         }, 5000)
       })
   }
@@ -125,7 +137,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={addingMessage} />
+      <Notification message={addingMessage.message} type={addingMessage.type}/>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange}
