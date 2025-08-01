@@ -26,7 +26,7 @@ const App = () => {
       return(
         <div>
           <h2>{country.name.common}</h2>
-          <p>Capital {country.capital}</p>
+          <p>Capital {country.capital.join(', ')}</p>
           <p>Area {country.area}</p>
           <h3>Languages:</h3>
           <ul>
