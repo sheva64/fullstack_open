@@ -21,9 +21,9 @@ const CountryInfo = ({ country }) => {
   return(
     <div>
       <h2>{country.name.common}</h2>
-      <p>Capital {country.capital.join(', ')}</p>
-      <p>Area {country.area}</p>
-      <h3>Languages</h3>
+      <p>Capital: {country.capital.join(', ')}</p>
+      <p>Area: {country.area}</p>
+      <h3>Languages:</h3>
       <ul>
         {Object.values(country.languages).map(lang => (
           <li key={lang}>{lang}</li>
@@ -41,7 +41,6 @@ const App = () => {
 
   useEffect(() => {
     if (countries) {
-      console.log('fetching countries...')
       axios
         .get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
         .then(response => {
