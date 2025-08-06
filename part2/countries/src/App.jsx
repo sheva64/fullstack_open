@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Weather from "./components/Weather";
 
 const CountriesList = ({ filteredCountries, setSelectedCountry }) => {
   if (filteredCountries.length > 10) {
@@ -30,6 +31,7 @@ const CountryInfo = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png} alt={`Flag of ${country.name.common}`} width="250" />
+      <Weather capital={country.capital} capitalInfo={country.capitalInfo} />
     </div>
   )
 }
