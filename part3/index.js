@@ -54,13 +54,17 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-
   if (!body.name || !body.number) {
     return response.status(400).json({ error: 'name or number missing' })
   }
 
+  const nameExists = persons.find(person => person.name === body.name)
+  if (nameExists) {
+    return response.status(400).json({ error: 'name must be unique' })
+  }
+
   const person = {
-    id: String(Math.floor(Math.random() * 1000000)), // випадковий id
+    id: String(Math.floor(Math.random() * 1000000)),
     name: body.name,
     number: body.number
   }
@@ -68,6 +72,7 @@ app.post('/api/persons', (request, response) => {
   persons = persons.concat(person)
   response.json(person)
 })
+
 
 const PORT = 3001
 app.listen(PORT, () => {
