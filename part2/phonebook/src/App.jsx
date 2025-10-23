@@ -73,6 +73,7 @@ const App = () => {
           }, 5000)
         })
         .catch(error => {
+          console.log('Error in update:', error.response?.status, error.message)
           setAddingMessage({
             message: `Information of ${existingPerson.name} was already removed from server`,
             type: "failure"
@@ -115,7 +116,18 @@ const App = () => {
         .then(() => {
           setPersons(persons.filter(p => p.id !== id))
         })
-    }
+        .catch(error => {
+          console.log('Error in delete:', error.response?.status, error.message)
+          setAddingMessage({
+            message: `Information of ${person.name} was already removed from server`,
+            type: "failure"
+          })
+          setTimeout(() => {
+            setAddingMessage({ message: null, type: null })
+          }, 5000)
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }   
   }
 
   const handleNameChange = (event) => {
